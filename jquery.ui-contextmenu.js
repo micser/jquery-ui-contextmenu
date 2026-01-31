@@ -153,7 +153,7 @@ $.widget("moogle.contextmenu", {
 		// and generate the structure now
 		if ( !menuDef ) {
 			return;
-		} else if ($.isArray(menuDef)) {
+		} else if (Array.isArray(menuDef)) {
 			this.$menu = $.moogle.contextmenu.createMenuMarkup(menuDef, null, opts);
 			this.menuIsTemp = true;
 		}else if ( typeof menuDef === "string" ) {
@@ -217,7 +217,7 @@ $.widget("moogle.contextmenu", {
 
 		if ( !recursive ) {
 			res = this._trigger("beforeOpen", event, ui);
-			promise = (ui.result && $.isFunction(ui.result.promise)) ? ui.result : null;
+			promise = (ui.result && typeof ui.result.promise === "function") ? ui.result : null;
 			ui.result = null;
 			if ( res === false ) {
 				this.currentTarget = null;
@@ -253,7 +253,7 @@ $.widget("moogle.contextmenu", {
 		});
 
 		// required for custom positioning (issue #18 and #13).
-		if ($.isFunction(posOption)) {
+		if (typeof posOption === "function") {
 			posOption = posOption(event, ui);
 		}
 		posOption = $.extend({
@@ -441,7 +441,7 @@ $.widget("moogle.contextmenu", {
 		$entryLi.empty();
 		entry.cmd = entry.cmd || cmd;
 		$.moogle.contextmenu.createEntryMarkup(entry, $entryLi);
-		if ($.isArray(entry.children)) {
+		if (Array.isArray(entry.children)) {
 			$ul = $("<ul/>").appendTo($entryLi);
 			$.moogle.contextmenu.createMenuMarkup(entry.children, $ul);
 		}
@@ -558,7 +558,7 @@ $.extend($.moogle.contextmenu, {
 			}
 			// Store option callbacks in entry's data
 			$.each( [ "action", "disabled", "title", "tooltip" ], function(i, attr) {
-				if ( $.isFunction(entry[attr]) ) {
+				if ( typeof entry[attr] === "function" ) {
 					$parentLi.data(attr + "Handler", entry[attr]);
 				}
 			});
@@ -593,7 +593,7 @@ $.extend($.moogle.contextmenu, {
 
 			$.moogle.contextmenu.createEntryMarkup(menu, $li);
 
-			if ( $.isArray(menu.children) ) {
+			if ( Array.isArray(menu.children) ) {
 				$ul = $("<ul/>").appendTo($li);
 				$.moogle.contextmenu.createMenuMarkup(menu.children, $ul);
 			}

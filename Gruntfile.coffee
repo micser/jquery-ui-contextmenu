@@ -144,27 +144,25 @@ module.exports = (grunt) ->
         common: # defaults for all tools
           manifests: ['package.json', 'bower.json']
         # The following tools are run in order:
-        check: { branch: ['master'], canPush: true, clean: true, cmpVersion: 'gte' }
+        check: { branch: ['master'], canPush: true, clean: false, cmpVersion: 'gte' }
         run_test: { tasks: ['test'] }
         bump: {} # 'bump' uses the increment mode `yabs:release:MODE` by default
-        run_build: { tasks: ['build'] }
+        run_build: { tasks: ['build-fork'] }
         replace_build:
           files: ['jquery.ui-contextmenu.min.js']
           patterns: [
             { match: /@VERSION/g, replacement: '{%= version %}'}
           ]
         commit: {}
-        check_after_build: { clean: true } # Fails if new files are found
-        tag: {}
+        tag: { name: 'v{%= version %}@micser' }
         push: { tags: true, useFollowTags: true }
         githubRelease:
-          repo: 'mar10/jquery-ui-contextmenu'
+          repo: 'micser/jquery-ui-contextmenu'
           draft: false
-        npmPublish: {}
+          name: 'v{%= version %}@micser',
         bump_develop: { inc: 'prepatch' }
         commit_develop: { message: 'Bump prerelease ({%= version %}) [ci skip]' }
         push_develop: {}  # another push (append a suffix for a uniqu ename)
-
 
   # Load "grunt*" dependencies
   for key of grunt.file.readJSON("package.json").devDependencies
@@ -185,5 +183,6 @@ module.exports = (grunt) ->
 
   # "sauce",
   grunt.registerTask "build", ["exec:tabfix", "test", "uglify"]
+  grunt.registerTask "build-fork", ["test", "uglify"]
   grunt.registerTask "upload", ["build", "exec:upload"]
   grunt.registerTask "server", ["connect:demo"]

@@ -1,3 +1,26 @@
+# Fork-Specific README
+
+This fork makes the plugin compatible with jQuery UI 1.14.2 and jQuery 4.0.0
+
+Building: 
+* Requires manual install of grung-yabs
+* use the build-fork target, which skips the execution of tabfix. 
+
+Testing: 
+* To avoid errors running phantomjs during tests, run `export OPENSSL_CONF=/dev/null`
+
+Releasing: 
+* Requires a github token to be available as an environment variable: `export GITHUB_OAUTH_TOKEN=<PAT>`
+* The gruntfile was updated to use build-fork instead of build in release mode, 
+* releases are created on this fork when running `grunt yabs:release:patch` 
+* tags and releases use the `@micser` suffix
+* checks for a clean repo are disabled because they failed locally for unknown reasons
+* npm publishing removed
+
+
+Unaltered,original readme continues below.
+
+
 # jquery.ui-contextmenu
 [![GitHub version](https://badge.fury.io/gh/mar10%2Fjquery-ui-contextmenu.svg)](https://github.com/mar10/jquery-ui-contextmenu/releases/latest)
 [![Build Status](https://travis-ci.org/mar10/jquery-ui-contextmenu.svg?branch=master)](https://travis-ci.org/mar10/jquery-ui-contextmenu)
